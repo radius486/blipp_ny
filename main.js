@@ -5,7 +5,7 @@ blipp.getPeel()
      .setOrientation('portrait')
      .setType('fit');
 
-  
+
 blipp.read("main.json");
 var scene   = blipp.getScene("default");
 var markerW = blipp.getMarker().getWidth();
@@ -27,19 +27,19 @@ scene.onCreate = function() {
 	scene.setRequiredAssets(scene.animations);
 
 	scene.cock_model = scene.addTransform().read("cock_model.json");
-	scene.box_model = scene.addTransform().read("box_model.json");
+	//scene.box_model = scene.addTransform().read("box_model.json");
 
 
 	}
 
-scene.onShow = function() {	
-	
-	scene.cock_model.animate().scale(5, 5, 5).duration(200);
-	scene.box_model.animate().scale(5, 5, 5).duration(200);
+scene.onShow = function() {
 
+	scene.cock_model.animate().scale(15, 15, 15).translationY(- markerH/2).duration(2000);
+	//scene.box_model.animate().scale(5, 5, 5).duration(200);
+  scene.cock_model.animate(scene.animations[2], 0, 5000);
 
-	scene.cock_model.setMesh(scene.animations[2]);
-	scene.cock_model.setActiveMesh(1);
-	scene.cock_model.animate();
+	//scene.cock_model.setMesh(scene.animations[2]);
+	//scene.cock_model.setActiveMesh(1);
+	//scene.cock_model.animate();
 
 	}
