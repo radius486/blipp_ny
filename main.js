@@ -35,21 +35,23 @@ scene.onCreate = function() {
   scene.cock = scene.getChild("cock");
 
   //scene.legal = createPlane('legal.png', -sW/2 + 5, -sH/2 + 5, sW - 10, 140, 'left');
-  scene.adultOn = createPlane('adult_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 * 2 + 40, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
-  scene.adultOff = createPlane('adult_off.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 * 2 + 40, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.adultOn = createPlane('adult_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.adultOff = createPlane('adult_off.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
 
-  scene.childOn = createPlane('child_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 + 35, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
-  scene.childOff = createPlane('child_off.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 + 35, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.childOn = createPlane('child_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.childOff = createPlane('child_off.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
 
-  scene.watchOn = createPlane('watch_on.png', -sW/2 + sW/3/2, -sH/2 + 30, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
-  scene.watchOff = createPlane('watch_off.png', -sW/2 + sW/3/2, -sH/2 + 30, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.watchOn = createPlane('watch_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.watchOff = createPlane('watch_off.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
 
   scene.backArrow = createPlane('arrow.png', -sW/2, sH/2, sW/3, (sW/3)/1.39, 'left', 'top');
 
   scene.adultOn.setHidden(true);
   scene.childOn.setHidden(true);
   scene.watchOn.setHidden(true);
+  scene.watchOff.setHidden(true);
   scene.backArrow.setHidden(true);
+  scene.watchOn.setHidden(true);
 
   scene.adultOn.on('touchEnd', function() {
     this.setHidden(true);
@@ -59,6 +61,13 @@ scene.onCreate = function() {
   scene.adultOff.on('touchEnd', function() {
     this.setHidden(true);
     scene.adultOn.setHidden(false);
+    delay(1000, function() {
+      scene.adultOn.setHidden(true);
+      scene.childOn.setHidden(true);
+      scene.childOff.setHidden(true);
+      scene.watchOff.setHidden(false);
+      scene.backArrow.setHidden(false);
+    });
   });
 
   scene.childOn.on('touchEnd', function() {
@@ -83,6 +92,10 @@ scene.onCreate = function() {
 
   scene.backArrow.on('touchEnd', function() {
     this.setHidden(true);
+    scene.adultOff.setHidden(false);
+    scene.childOff.setHidden(false);
+    scene.watchOff.setHidden(true);
+    scene.watchOn.setHidden(true);
   });
 
 };
