@@ -54,14 +54,14 @@ scene.onCreate = function() {
   scene.watchOn.setHidden(true);
 
   scene.adultOn.on('touchEnd', function() {
-    this.setHidden(true);
-    scene.adultOff.setHidden(false);
+    //this.setHidden(true);
+    //scene.adultOff.setHidden(false);
   });
 
   scene.adultOff.on('touchEnd', function() {
     this.setHidden(true);
     scene.adultOn.setHidden(false);
-    delay(1000, function() {
+    delay(200, function() {
       scene.adultOn.setHidden(true);
       scene.childOn.setHidden(true);
       scene.childOff.setHidden(true);
@@ -71,8 +71,8 @@ scene.onCreate = function() {
   });
 
   scene.childOn.on('touchEnd', function() {
-    this.setHidden(true);
-    scene.childOff.setHidden(false);
+    //this.setHidden(true);
+    //scene.childOff.setHidden(false);
   });
 
   scene.childOff.on('touchEnd', function() {
@@ -81,13 +81,19 @@ scene.onCreate = function() {
   });
 
   scene.watchOn.on('touchEnd', function() {
-    this.setHidden(true);
-    scene.watchOff.setHidden(false);
+    //this.setHidden(true);
+    //scene.watchOff.setHidden(false);
   });
 
   scene.watchOff.on('touchEnd', function() {
     this.setHidden(true);
     scene.watchOn.setHidden(false);
+    delay(200, function() {
+      blipp.playInAppVideo('', 'video.mp4', function() {
+        scene.watchOn.setHidden(true);
+        scene.watchOff.setHidden(false);
+      });
+    });
   });
 
   scene.backArrow.on('touchEnd', function() {
