@@ -14,6 +14,8 @@ var sH = blipp.getScreenHeight() * 1.003;
 
 var isSnowing = false;
 var snowParticles = snow([0, 0, 200], 1);
+var childMode = false;
+var trackLost = false;
 
 scene.onCreate = function() {
   blipp.uiVisible('blippShareButton', false);
@@ -36,7 +38,8 @@ scene.onCreate = function() {
   //scene.box_model = scene.addTransform().read("box_model.json");
   //
   scene.cock = scene.getChild("cock");
-  scene.box = scene.getChild("box");
+  scene.box1 = scene.getChild("box1");
+  scene.box2 = scene.getChild("box2");
 
   //scene.legal = createPlane('legal.png', -sW/2 + 5, -sH/2 + 5, sW - 10, 140, 'left');
   scene.adultOn = createPlane('adult_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
@@ -58,7 +61,8 @@ scene.onCreate = function() {
   scene.watchOff.setHidden(true);
   scene.backArrow.setHidden(true);
   scene.watchOn.setHidden(true);
-  scene.box.applyToNodeAndDescendants('setHidden', true);
+  scene.box1.applyToNodeAndDescendants('setHidden', true);
+  scene.box2.applyToNodeAndDescendants('setHidden', true);
 
   scene.adultOn.on('touchEnd', function() {
     //this.setHidden(true);
@@ -90,7 +94,14 @@ scene.onCreate = function() {
       scene.adultOff.setHidden(true);
       scene.backArrow.setHidden(false);
       scene.cock.applyToNodeAndDescendants('setHidden', true);
-      scene.box.applyToNodeAndDescendants('setHidden', false);
+      scene.box1.applyToNodeAndDescendants('setHidden', false);
+      scene.box2.applyToNodeAndDescendants('setHidden', false);
+      childMode = true;
+
+      if(trackLost) {
+        scene.setWorldOrientation([0, 0, 1, - 90]);
+        scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
+      }
     });
   });
 
@@ -117,7 +128,12 @@ scene.onCreate = function() {
     scene.watchOff.setHidden(true);
     scene.watchOn.setHidden(true);
     scene.cock.applyToNodeAndDescendants('setHidden', false);
-    scene.box.applyToNodeAndDescendants('setHidden', true);
+    scene.box1.applyToNodeAndDescendants('setHidden', true);
+    scene.box2.applyToNodeAndDescendants('setHidden', true);
+    if(childMode) {
+      childMode = false;
+      scene.setWorldOrientation([0, 0, 1, 0]);
+    }
   });
 
 };
@@ -127,15 +143,40 @@ scene.onShow = function() {
   isSnowing = true;
 
   scene.cock.setScale(10, 10, 10).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
-  scene.box.setScale(5, 5, 5).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
+  scene.box1.setScale(4, 4, 4).setTranslation(- 200, - 120, 0).setRotationY(45).setRotationX(35.264);
+  scene.box2.setScale(4, 4, 4).setTranslation(200, - 120, 0).setRotationY(45).setRotationX(35.264);
   scene.playSound('1.mp3', true);
-  scene.playSound('2voc.mp3');
-  delay(10000, function() {
+
+  delay(2000, function() {
+    scene.playSound('2voc.mp3');
+  });
+
+ // delay(12000, function() {
+ //   scene.adultOff.setHidden(false);
+ //   scene.childOff.setHidden(false);
+ // });
+
+  delay(10, function() {
     scene.adultOff.setHidden(false);
     scene.childOff.setHidden(false);
   });
 
+
 };
+
+scene.on('trackLost', function () {
+  trackLost = true;
+  if(childMode) {
+    scene.setWorldOrientation([0, 0, 1, - 90]);
+    scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
+  }
+});
+
+scene.on('track', function () {
+  trackLost = false;
+  scene.setWorldOrientation([0, 0, 1, 0]);
+  scene.backArrow.setTranslation(-sW/2, sH/2, 0);
+});
 
 function createPlane(texture, x, y, sX, sY, directionX, directionY) {
   return scene.getScreen()

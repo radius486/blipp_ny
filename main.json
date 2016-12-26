@@ -1890,7 +1890,55 @@
             }
           ],
           "className": "Transform",
-          "name": "box"
+          "name": "box1"
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "className": "Mesh",
+              "mesh": "bottom_box001_60.md2",
+              "rotation": [
+                -90.0,
+                -0.0,
+                0.0
+              ],
+              "scale": [
+                2.54,
+                2.54,
+                2.54
+              ],
+              "texture": "box_diff.jpg",
+              "translation": [
+                0.0,
+                -1.6186814308166504,
+                4.552911758422852
+              ]
+            },
+            {
+              "children": [],
+              "className": "Mesh",
+              "mesh": "cap_box001_61.md2",
+              "rotation": [
+                -90.0,
+                -0.0,
+                0.0
+              ],
+              "scale": [
+                2.5399999618530273,
+                2.5399999618530273,
+                2.5399999618530273
+              ],
+              "texture": "box_diff.jpg",
+              "translation": [
+                0.06523293256759644,
+                49.32584762573242,
+                4.40760612487793
+              ]
+            }
+          ],
+          "className": "Transform",
+          "name": "box2"
         }
       ]
     }
