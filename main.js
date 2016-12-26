@@ -48,7 +48,9 @@ scene.onCreate = function() {
   scene.backArrow = createPlane('arrow.png', -sW/2, sH/2, sW/3, (sW/3)/1.39, 'left', 'top');
 
   scene.adultOn.setHidden(true);
+  scene.adultOff.setHidden(true);
   scene.childOn.setHidden(true);
+  scene.childOff.setHidden(true);
   scene.watchOn.setHidden(true);
   scene.watchOff.setHidden(true);
   scene.backArrow.setHidden(true);
@@ -121,6 +123,12 @@ scene.onShow = function() {
 
   scene.cock.setScale(10, 10, 10).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
   scene.box.setScale(5, 5, 5).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
+  scene.playSound('1.mp3', true);
+  scene.playSound('2voc.mp3');
+  delay(10000, function() {
+    scene.adultOff.setHidden(false);
+    scene.childOff.setHidden(false);
+  });
 
   //scene.box_model.animate().scale(5, 5, 5).duration(200);
   //scene.cock_model.animate(scene.animations[2], 0, 5000);
