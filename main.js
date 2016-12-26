@@ -12,6 +12,9 @@ var mH = blipp.getMarker().getHeight();
 var sW = blipp.getScreenWidth() * 1.003;
 var sH = blipp.getScreenHeight() * 1.003;
 
+var isSnowing = false;
+var snowParticles = snow([0, 0, 200], 1);
+
 scene.onCreate = function() {
   blipp.uiVisible('blippShareButton', false);
   blipp.uiVisible('photoShareButton', false);
@@ -120,6 +123,8 @@ scene.onCreate = function() {
 };
 
 scene.onShow = function() {
+  snowParticles.start();
+  isSnowing = true;
 
   scene.cock.setScale(10, 10, 10).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
   scene.box.setScale(5, 5, 5).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
@@ -129,13 +134,6 @@ scene.onShow = function() {
     scene.adultOff.setHidden(false);
     scene.childOff.setHidden(false);
   });
-
-  //scene.box_model.animate().scale(5, 5, 5).duration(200);
-  //scene.cock_model.animate(scene.animations[2], 0, 5000);
-
-  //scene.cock_model.setMesh(scene.animations[2]);
-  //scene.cock_model.setActiveMesh(1);
-  //scene.cock_model.animate();
 
 };
 
@@ -152,4 +150,21 @@ function createPlane(texture, x, y, sX, sY, directionX, directionY) {
 
 function delay(delay, onEnd){
   return scene.animate().delay(delay).onEnd = onEnd;
+}
+
+function snow(position, gravityFactor) {
+  var particles = scene.addParticles().setCenter(position).setEmitterType("continual").setBirthRate(1000).setEmitterSize(5000, 5000, 5000)
+    .setMaximum(2000).setSpread(0, 0).setTrajectory(0, 0, -1).setTextures(["snow1.png", "snow2.png", "snow3.png", "snow4.png"]).setSpin(8,45,180,1)
+    .setColorProfile(0, 0.3, 0.6, 0.1, 0).setStartSize(80, 80).setEndSize(0, 0).setLifetime(3000 / 1000, 3000 / 1000)
+    .setSpeed(100, 10).setMass(1.0, 5.0).setGravity(0, 0, -9.8 * gravityFactor).setWindDirection(0.5, -1, 0).setWindSpeed(100, 500)
+    .setWindStability(0.4);
+
+    return particles;
+}
+
+function clear(duration, alpha, onEnd){
+  if(isSnowing){
+    snowParticles.stop(true);
+    isSnowing = false;
+  }
 }
