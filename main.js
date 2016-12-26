@@ -33,6 +33,7 @@ scene.onCreate = function() {
   //scene.box_model = scene.addTransform().read("box_model.json");
   //
   scene.cock = scene.getChild("cock");
+  scene.box = scene.getChild("box");
 
   //scene.legal = createPlane('legal.png', -sW/2 + 5, -sH/2 + 5, sW - 10, 140, 'left');
   scene.adultOn = createPlane('adult_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
@@ -52,6 +53,7 @@ scene.onCreate = function() {
   scene.watchOff.setHidden(true);
   scene.backArrow.setHidden(true);
   scene.watchOn.setHidden(true);
+  scene.box.applyToNodeAndDescendants('setHidden', true);
 
   scene.adultOn.on('touchEnd', function() {
     //this.setHidden(true);
@@ -78,6 +80,13 @@ scene.onCreate = function() {
   scene.childOff.on('touchEnd', function() {
     this.setHidden(true);
     scene.childOn.setHidden(false);
+    delay(200, function() {
+      scene.childOn.setHidden(true);
+      scene.adultOff.setHidden(true);
+      scene.backArrow.setHidden(false);
+      scene.cock.applyToNodeAndDescendants('setHidden', true);
+      scene.box.applyToNodeAndDescendants('setHidden', false);
+    });
   });
 
   scene.watchOn.on('touchEnd', function() {
@@ -102,6 +111,8 @@ scene.onCreate = function() {
     scene.childOff.setHidden(false);
     scene.watchOff.setHidden(true);
     scene.watchOn.setHidden(true);
+    scene.cock.applyToNodeAndDescendants('setHidden', false);
+    scene.box.applyToNodeAndDescendants('setHidden', true);
   });
 
 };
@@ -109,6 +120,7 @@ scene.onCreate = function() {
 scene.onShow = function() {
 
   scene.cock.setScale(10, 10, 10).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
+  scene.box.setScale(5, 5, 5).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
 
   //scene.box_model.animate().scale(5, 5, 5).duration(200);
   //scene.cock_model.animate(scene.animations[2], 0, 5000);
