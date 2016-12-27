@@ -19,6 +19,7 @@ var trackLost = false;
 var stage = 0;
 var trueNumber;
 var selectedNumber;
+var canPush = false;
 
 scene.onCreate = function() {
   blipp.uiVisible('blippShareButton', false);
@@ -43,6 +44,10 @@ scene.onCreate = function() {
   scene.cock = scene.getChild("cock");
   scene.box1 = scene.getChild("box1");
   scene.box2 = scene.getChild("box2");
+  scene.box1_1 = scene.box1.getChild("box1_1");
+  scene.box2_1 = scene.box2.getChild("box2_1");
+  scene.box1_2 = scene.box1.getChild("box1_2");
+  scene.box2_2 = scene.box2.getChild("box2_2");
 
   //scene.legal = createPlane('legal.png', -sW/2 + 5, -sH/2 + 5, sW - 10, 140, 'left');
   scene.adultOn = createPlane('adult_on.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
@@ -168,30 +173,43 @@ scene.onCreate = function() {
       scene.backArrow.setTranslation(-sW/2, sH/2, 0);
       scene.ok.setTranslation(- sW/3/2, -sH/2 + (sW * 1/3)/1.84, 0);
       rotateMessages(false);
+      closeBox(scene.box1_2);
+      closeBox(scene.box2_2);
       stage = 0;
     }
   });
 
   scene.ok.on('touchEnd', function() {
     this.setHidden(true);
+    hideMessages(true);
+    canPush = true;
+    closeBox(scene.box1_2);
+    closeBox(scene.box2_2);
+    trueNumber = random(1, 2);
+    console.log(trueNumber);
 
     if(stage === 0) {
-      scene.message1.setHidden(true);
       stage = 1;
-      trueNumber = random(1, 2);
-      console.log(trueNumber);
+    } else if(stage === 1) {
+      //stage = 0;
     }
 
   });
 
-  scene.box1.on('touchEnd', function() {
-    selectedNumber = 1;
-    checkBox();
+  scene.box1_1.on('touchEnd', function() {
+    if(canPush) {
+      selectedNumber = 1;
+      checkBox(scene.box1_2);
+      canPush = false;
+    }
   });
 
-  scene.box2.on('touchEnd', function() {
-    selectedNumber = 2;
-    checkBox();
+  scene.box2_1.on('touchEnd', function() {
+    if(canPush) {
+      selectedNumber = 2;
+      checkBox(scene.box2_2);
+      canPush = false;
+    }
   });
 
 
@@ -277,19 +295,19 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function checkBox() {
+function checkBox(box) {
   scene.ok.setHidden(false);
 
   if(selectedNumber == trueNumber) {
     if (stage === 1) {
       // TODO: show cock
-      scene.message3.setHidden(false);
+      openFull(box);
     }
 
   } else {
     if (stage === 1) {
       // TODO: show empty
-      scene.message2.setHidden(false);
+      openEmpty(box);
     }
 
   }
@@ -320,4 +338,22 @@ function hideMessages(hide) {
   scene.message4.setHidden(hide);
   scene.message5.setHidden(hide);
   scene.message6.setHidden(hide);
+}
+
+function openEmpty(box) {
+  box.animate().translationY(100).duration(500);
+  delay(500, function() {
+    scene.message2.setHidden(false);
+  });
+}
+
+function openFull(box) {
+  box.animate().translationY(100).duration(500);
+  delay(500, function() {
+    scene.message3.setHidden(false);
+  });
+}
+
+function closeBox(box) {
+  box.animate().translationY(49.32584762573242).duration(500);
 }
