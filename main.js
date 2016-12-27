@@ -70,6 +70,12 @@ scene.onCreate = function() {
   scene.message5 = createPlane('message5.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
   scene.message6 = createPlane('message6.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
 
+  scene.try1 = createPlane('try_1.png', - sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, sW * 2/3, (sW * 2/3)/4.184, 'left', 'top');
+  scene.try2 = createPlane('try_2.png', - sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, sW * 2/3, (sW * 2/3)/4.184, 'left', 'top');
+  scene.try3 = createPlane('try_3.png', - sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, sW * 2/3, (sW * 2/3)/4.184, 'left', 'top');
+  scene.try4 = createPlane('try_4.png', - sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, sW * 2/3, (sW * 2/3)/4.184, 'left', 'top');
+  scene.try5 = createPlane('try_5.png', - sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, sW * 2/3, (sW * 2/3)/4.184, 'left', 'top');
+
  // blipp.getPresets().override('Text', 'fontSize', 36);
 
  // // Create multiple text assets
@@ -134,7 +140,6 @@ scene.onCreate = function() {
       if(trackLost) {
         scene.setWorldOrientation([0, 0, 1, - 90]);
         scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
-        scene.ok.setTranslation(-sW/3/2, -sW/2, 0);
         rotateMessages(true);
       }
     });
@@ -171,7 +176,6 @@ scene.onCreate = function() {
       childMode = false;
       scene.setWorldOrientation([0, 0, 1, 0]);
       scene.backArrow.setTranslation(-sW/2, sH/2, 0);
-      scene.ok.setTranslation(- sW/3/2, -sH/2 + (sW * 1/3)/1.84, 0);
       rotateMessages(false);
       closeBox(scene.box1_2);
       closeBox(scene.box2_2);
@@ -189,9 +193,22 @@ scene.onCreate = function() {
     console.log(trueNumber);
 
     if(stage === 0) {
+      scene.try5.setHidden(false);
       stage = 1;
     } else if(stage === 1) {
-      //stage = 0;
+      scene.try4.setHidden(false);
+      stage = 2;
+    } else if(stage === 2) {
+      scene.try3.setHidden(false);
+      stage = 3;
+    } else if(stage === 3) {
+      scene.try2.setHidden(false);
+      stage = 4;
+    } else if(stage === 4) {
+      scene.try1.setHidden(false);
+      stage = 5;
+    } else if(stage === 5) {
+      stage = 6;
     }
 
   });
@@ -247,7 +264,6 @@ scene.on('trackLost', function () {
   if(childMode) {
     scene.setWorldOrientation([0, 0, 1, - 90]);
     scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
-    scene.ok.setTranslation(-sW/3/2, -sW/2, 0);
     rotateMessages(true);
   }
 });
@@ -256,7 +272,6 @@ scene.on('track', function () {
   trackLost = false;
   scene.setWorldOrientation([0, 0, 1, 0]);
   scene.backArrow.setTranslation(-sW/2, sH/2, 0);
-  scene.ok.setTranslation(- sW/3/2, -sH/2 + (sW * 1/3)/1.84, 0);
   rotateMessages(false);
   rotateModels(false);
 });
@@ -298,20 +313,13 @@ function random(min, max) {
 }
 
 function checkBox(box) {
-  scene.ok.setHidden(false);
 
   if(selectedNumber == trueNumber) {
-    if (stage === 1) {
-      // TODO: show cock
-      openFull(box);
-    }
-
+    // TODO: show cock
+    openFull(box);
   } else {
-    if (stage === 1) {
-      // TODO: show empty
-      openEmpty(box);
-    }
-
+    // TODO: show empty
+    openEmpty(box);
   }
 }
 
@@ -323,6 +331,12 @@ function rotateMessages(rotate) {
     scene.message4.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
     scene.message5.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
     scene.message6.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
+    scene.try1.setTranslation(- sW * 2/3/2, sW/2, 0);
+    scene.try2.setTranslation(- sW * 2/3/2, sW/2, 0);
+    scene.try3.setTranslation(- sW * 2/3/2, sW/2, 0);
+    scene.try4.setTranslation(- sW * 2/3/2, sW/2, 0);
+    scene.try5.setTranslation(- sW * 2/3/2, sW/2, 0);
+    scene.ok.setTranslation(- sW/3/2, - sW/2, 0);
   } else {
     scene.message1.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
     scene.message2.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
@@ -330,6 +344,12 @@ function rotateMessages(rotate) {
     scene.message4.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
     scene.message5.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
     scene.message6.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+    scene.try1.setTranslation(- sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, 0);
+    scene.try2.setTranslation(- sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, 0);
+    scene.try3.setTranslation(- sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, 0);
+    scene.try4.setTranslation(- sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, 0);
+    scene.try5.setTranslation(- sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, 0);
+    scene.ok.setTranslation(- sW/3/2, - sH/2 + (sW * 1/3)/1.84, 0);
   }
 }
 
@@ -340,19 +360,28 @@ function hideMessages(hide) {
   scene.message4.setHidden(hide);
   scene.message5.setHidden(hide);
   scene.message6.setHidden(hide);
+  scene.try1.setHidden(hide);
+  scene.try2.setHidden(hide);
+  scene.try3.setHidden(hide);
+  scene.try4.setHidden(hide);
+  scene.try5.setHidden(hide);
 }
 
 function openEmpty(box) {
+  // TODO: Full box animation
   box.animate().translationY(100).duration(500);
   delay(500, function() {
     scene.message2.setHidden(false);
+    scene.ok.setHidden(false);
   });
 }
 
 function openFull(box) {
+  // TODO: Empty box animation
   box.animate().translationY(100).duration(500);
   delay(500, function() {
     scene.message3.setHidden(false);
+    scene.ok.setHidden(false);
   });
 }
 
