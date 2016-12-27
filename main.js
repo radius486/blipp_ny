@@ -50,8 +50,8 @@ scene.onCreate = function() {
   scene.box2_2 = scene.box2.getChild("box2_2");
 
   //scene.legal = createPlane('legal.png', -sW/2 + 5, -sH/2 + 5, sW - 10, 140, 'left');
-  scene.adultOn = createPlane('adult_on.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
-  scene.adultOff = createPlane('adult_off.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.adultOn = createPlane('adult_on.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2 + 20, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.adultOff = createPlane('adult_off.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2 + 20, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
 
   scene.childOn = createPlane('child_on.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
   scene.childOff = createPlane('child_off.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
@@ -219,9 +219,9 @@ scene.onShow = function() {
   snowParticles.start();
   isSnowing = true;
 
-  scene.cock.setScale(10, 10, 10).setTranslation(-50, - 50, 0).setRotationY(45).setRotationX(35.264);
-  scene.box1.setScale(4, 4, 4).setTranslation(- 200, - 120, 0).setRotationY(45).setRotationX(35.264);
-  scene.box2.setScale(4, 4, 4).setTranslation(200, - 120, 0).setRotationY(45).setRotationX(35.264);
+  scene.cock.setScale(8, 8, 8).setTranslation(-50, - 50, 0).setRotationY(45);
+  scene.box1.setScale(4, 4, 4).setTranslation(- 200, - 120, 0).setRotationY(45);
+  scene.box2.setScale(4, 4, 4).setTranslation(200, - 120, 0).setRotationY(45);
   scene.playSound('1.mp3', true);
 
   delay(2000, function() {
@@ -243,6 +243,7 @@ scene.onShow = function() {
 
 scene.on('trackLost', function () {
   trackLost = true;
+  rotateModels(true);
   if(childMode) {
     scene.setWorldOrientation([0, 0, 1, - 90]);
     scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
@@ -257,6 +258,7 @@ scene.on('track', function () {
   scene.backArrow.setTranslation(-sW/2, sH/2, 0);
   scene.ok.setTranslation(- sW/3/2, -sH/2 + (sW * 1/3)/1.84, 0);
   rotateMessages(false);
+  rotateModels(false);
 });
 
 function createPlane(texture, x, y, sX, sY, directionX, directionY) {
@@ -315,12 +317,12 @@ function checkBox(box) {
 
 function rotateMessages(rotate) {
   if (rotate) {
-    scene.message1.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
-    scene.message2.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
-    scene.message3.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
-    scene.message4.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
-    scene.message5.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
-    scene.message6.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+    scene.message1.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
+    scene.message2.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
+    scene.message3.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
+    scene.message4.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
+    scene.message5.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
+    scene.message6.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, + (sH * 2/4)/1.676/2, 0);
   } else {
     scene.message1.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
     scene.message2.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
@@ -356,4 +358,16 @@ function openFull(box) {
 
 function closeBox(box) {
   box.animate().translationY(49.32584762573242).duration(500);
+}
+
+function rotateModels(rotate) {
+  if (rotate) {
+    scene.cock.setRotationX(35.264);
+    scene.box1.setRotationX(35.264);
+    scene.box2.setRotationX(35.264);
+  } else {
+    scene.cock.setRotationX(0);
+    scene.box1.setRotationX(0);
+    scene.box2.setRotationX(0);
+  }
 }
