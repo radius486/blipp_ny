@@ -16,6 +16,9 @@ var isSnowing = false;
 var snowParticles = snow([0, 0, 200], 1);
 var childMode = false;
 var trackLost = false;
+var stage = 0;
+var trueNumber;
+var selectedNumber;
 
 scene.onCreate = function() {
   blipp.uiVisible('blippShareButton', false);
@@ -56,6 +59,23 @@ scene.onCreate = function() {
   scene.ok = createPlane('ok.png', - sW/3/2, -sH/2 + (sW * 1/3)/1.84, sW * 1/3, (sW * 1/3)/1.84, 'left', 'bottom');
 
   scene.message1 = createPlane('message1.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
+  scene.message2 = createPlane('message2.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
+  scene.message3 = createPlane('message3.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
+  scene.message4 = createPlane('message4.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
+  scene.message5 = createPlane('message5.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
+  scene.message6 = createPlane('message6.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
+
+ // blipp.getPresets().override('Text', 'fontSize', 36);
+
+ // // Create multiple text assets
+ // scene.addText("Red text<br>with line break")
+ //   .setTranslation(0, 500, 0)
+ //   .setScale(1)
+ //   .setColor(1, 1, 1)
+ //   .setBgColor(250/255, 195/255, 36/255)
+ //   .setColor(1, 0, 0)
+ //   .setBgColor(1, 1, 1)
+ //   .setTextMargins([10, 20]);
 
   scene.adultOn.setHidden(true);
   scene.adultOff.setHidden(true);
@@ -66,7 +86,7 @@ scene.onCreate = function() {
   scene.backArrow.setHidden(true);
   scene.watchOn.setHidden(true);
   scene.ok.setHidden(true);
-  scene.message1.setHidden(true);
+  hideMessages(true);
   scene.box1.applyToNodeAndDescendants('setHidden', true);
   scene.box2.applyToNodeAndDescendants('setHidden', true);
 
@@ -110,7 +130,7 @@ scene.onCreate = function() {
         scene.setWorldOrientation([0, 0, 1, - 90]);
         scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
         scene.ok.setTranslation(-sW/3/2, -sW/2, 0);
-        scene.message1.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+        rotateMessages(true);
       }
     });
   });
@@ -141,15 +161,39 @@ scene.onCreate = function() {
     scene.box1.applyToNodeAndDescendants('setHidden', true);
     scene.box2.applyToNodeAndDescendants('setHidden', true);
     scene.ok.setHidden(true);
-    scene.message1.setHidden(true);
+    hideMessages(true);
     if(childMode) {
       childMode = false;
       scene.setWorldOrientation([0, 0, 1, 0]);
       scene.backArrow.setTranslation(-sW/2, sH/2, 0);
       scene.ok.setTranslation(- sW/3/2, -sH/2 + (sW * 1/3)/1.84, 0);
-      scene.message1.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+      rotateMessages(false);
+      stage = 0;
     }
   });
+
+  scene.ok.on('touchEnd', function() {
+    this.setHidden(true);
+
+    if(stage === 0) {
+      scene.message1.setHidden(true);
+      stage = 1;
+      trueNumber = random(1, 2);
+      console.log(trueNumber);
+    }
+
+  });
+
+  scene.box1.on('touchEnd', function() {
+    selectedNumber = 1;
+    checkBox();
+  });
+
+  scene.box2.on('touchEnd', function() {
+    selectedNumber = 2;
+    checkBox();
+  });
+
 
 };
 
@@ -185,7 +229,7 @@ scene.on('trackLost', function () {
     scene.setWorldOrientation([0, 0, 1, - 90]);
     scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
     scene.ok.setTranslation(-sW/3/2, -sW/2, 0);
-    scene.message1.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+    rotateMessages(true);
   }
 });
 
@@ -194,7 +238,7 @@ scene.on('track', function () {
   scene.setWorldOrientation([0, 0, 1, 0]);
   scene.backArrow.setTranslation(-sW/2, sH/2, 0);
   scene.ok.setTranslation(- sW/3/2, -sH/2 + (sW * 1/3)/1.84, 0);
-  scene.message1.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+  rotateMessages(false);
 });
 
 function createPlane(texture, x, y, sX, sY, directionX, directionY) {
@@ -227,4 +271,53 @@ function clear(duration, alpha, onEnd){
     snowParticles.stop(true);
     isSnowing = false;
   }
+}
+
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function checkBox() {
+  scene.ok.setHidden(false);
+
+  if(selectedNumber == trueNumber) {
+    if (stage === 1) {
+      // TODO: show cock
+      scene.message3.setHidden(false);
+    }
+
+  } else {
+    if (stage === 1) {
+      // TODO: show empty
+      scene.message2.setHidden(false);
+    }
+
+  }
+}
+
+function rotateMessages(rotate) {
+  if (rotate) {
+    scene.message1.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+    scene.message2.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+    scene.message3.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+    scene.message4.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+    scene.message5.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+    scene.message6.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
+  } else {
+    scene.message1.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+    scene.message2.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+    scene.message3.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+    scene.message4.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+    scene.message5.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+    scene.message6.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
+  }
+}
+
+function hideMessages(hide) {
+  scene.message1.setHidden(hide);
+  scene.message2.setHidden(hide);
+  scene.message3.setHidden(hide);
+  scene.message4.setHidden(hide);
+  scene.message5.setHidden(hide);
+  scene.message6.setHidden(hide);
 }
