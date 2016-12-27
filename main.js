@@ -42,16 +42,20 @@ scene.onCreate = function() {
   scene.box2 = scene.getChild("box2");
 
   //scene.legal = createPlane('legal.png', -sW/2 + 5, -sH/2 + 5, sW - 10, 140, 'left');
-  scene.adultOn = createPlane('adult_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
-  scene.adultOff = createPlane('adult_off.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.adultOn = createPlane('adult_on.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.adultOff = createPlane('adult_off.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
 
-  scene.childOn = createPlane('child_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
-  scene.childOff = createPlane('child_off.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.childOn = createPlane('child_on.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.childOff = createPlane('child_off.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
 
-  scene.watchOn = createPlane('watch_on.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
-  scene.watchOff = createPlane('watch_off.png', -sW/2 + sW/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.watchOn = createPlane('watch_on.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
+  scene.watchOff = createPlane('watch_off.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
 
   scene.backArrow = createPlane('arrow.png', -sW/2, sH/2, sW/3, (sW/3)/1.39, 'left', 'top');
+
+  scene.ok = createPlane('ok.png', - sW/3/2, -sH/2 + (sW * 1/3)/1.84, sW * 1/3, (sW * 1/3)/1.84, 'left', 'bottom');
+
+  scene.message1 = createPlane('message1.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
 
   scene.adultOn.setHidden(true);
   scene.adultOff.setHidden(true);
@@ -61,6 +65,8 @@ scene.onCreate = function() {
   scene.watchOff.setHidden(true);
   scene.backArrow.setHidden(true);
   scene.watchOn.setHidden(true);
+  scene.ok.setHidden(true);
+  scene.message1.setHidden(true);
   scene.box1.applyToNodeAndDescendants('setHidden', true);
   scene.box2.applyToNodeAndDescendants('setHidden', true);
 
@@ -96,11 +102,15 @@ scene.onCreate = function() {
       scene.cock.applyToNodeAndDescendants('setHidden', true);
       scene.box1.applyToNodeAndDescendants('setHidden', false);
       scene.box2.applyToNodeAndDescendants('setHidden', false);
+      scene.ok.setHidden(false);
+      scene.message1.setHidden(false);
       childMode = true;
 
       if(trackLost) {
         scene.setWorldOrientation([0, 0, 1, - 90]);
         scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
+        scene.ok.setTranslation(-sW/3/2, -sW/2, 0);
+        scene.message1.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
       }
     });
   });
@@ -130,9 +140,14 @@ scene.onCreate = function() {
     scene.cock.applyToNodeAndDescendants('setHidden', false);
     scene.box1.applyToNodeAndDescendants('setHidden', true);
     scene.box2.applyToNodeAndDescendants('setHidden', true);
+    scene.ok.setHidden(true);
+    scene.message1.setHidden(true);
     if(childMode) {
       childMode = false;
       scene.setWorldOrientation([0, 0, 1, 0]);
+      scene.backArrow.setTranslation(-sW/2, sH/2, 0);
+      scene.ok.setTranslation(- sW/3/2, -sH/2 + (sW * 1/3)/1.84, 0);
+      scene.message1.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
     }
   });
 
@@ -169,6 +184,8 @@ scene.on('trackLost', function () {
   if(childMode) {
     scene.setWorldOrientation([0, 0, 1, - 90]);
     scene.backArrow.setTranslation(-sH/2 + 50, sW/2, 0);
+    scene.ok.setTranslation(-sW/3/2, -sW/2, 0);
+    scene.message1.setScale(sH * 2/4, (sH * 2/4)/1.676, 0).setTranslation(- sH * 2/4/2, sW - (sH * 2/4)/1.676, 0);
   }
 });
 
@@ -176,6 +193,8 @@ scene.on('track', function () {
   trackLost = false;
   scene.setWorldOrientation([0, 0, 1, 0]);
   scene.backArrow.setTranslation(-sW/2, sH/2, 0);
+  scene.ok.setTranslation(- sW/3/2, -sH/2 + (sW * 1/3)/1.84, 0);
+  scene.message1.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
 });
 
 function createPlane(texture, x, y, sX, sY, directionX, directionY) {
