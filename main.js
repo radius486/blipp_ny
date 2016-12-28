@@ -16,10 +16,12 @@ var isSnowing = false;
 var snowParticles = snow([0, 0, 200], 1);
 var childMode = false;
 var trackLost = false;
-var stage = 0;
+var tryCount = 5;
 var trueNumber;
 var selectedNumber;
 var canPush = false;
+var successResults = 0;
+var stage2 = false;
 
 scene.onCreate = function() {
   blipp.uiVisible('blippShareButton', false);
@@ -179,7 +181,9 @@ scene.onCreate = function() {
       rotateMessages(false);
       closeBox(scene.box1_2);
       closeBox(scene.box2_2);
-      stage = 0;
+      tryCount = 5;
+      successResults = 0;
+      stage2 = false;
     }
   });
 
@@ -189,27 +193,14 @@ scene.onCreate = function() {
     canPush = true;
     closeBox(scene.box1_2);
     closeBox(scene.box2_2);
-    trueNumber = random(1, 2);
+    if(!stage2) {
+      trueNumber = random(1, 2);
+    } else {
+      trueNumber = 1;
+    }
     console.log(trueNumber);
 
-    if(stage === 0) {
-      scene.try5.setHidden(false);
-      stage = 1;
-    } else if(stage === 1) {
-      scene.try4.setHidden(false);
-      stage = 2;
-    } else if(stage === 2) {
-      scene.try3.setHidden(false);
-      stage = 3;
-    } else if(stage === 3) {
-      scene.try2.setHidden(false);
-      stage = 4;
-    } else if(stage === 4) {
-      scene.try1.setHidden(false);
-      stage = 5;
-    } else if(stage === 5) {
-      stage = 6;
-    }
+    tryMessages();
 
   });
 
@@ -245,16 +236,10 @@ scene.onShow = function() {
     scene.playSound('2voc.mp3');
   });
 
- // delay(12000, function() {
- //   scene.adultOff.setHidden(false);
- //   scene.childOff.setHidden(false);
- // });
-
-  delay(10, function() {
+  delay(12000, function() {
     scene.adultOff.setHidden(false);
     scene.childOff.setHidden(false);
   });
-
 
 };
 
@@ -368,21 +353,92 @@ function hideMessages(hide) {
 }
 
 function openEmpty(box) {
-  // TODO: Full box animation
+  // TODO: Empty box animation
   box.animate().translationY(100).duration(500);
   delay(500, function() {
-    scene.message2.setHidden(false);
-    scene.ok.setHidden(false);
+    if (tryCount === 0 && successResults < 3) {
+      // TODO: Cock shows himself in first box animation.)
+      stage2 = true;
+
+      hideMessages(true);
+      scene.playSound('5voc.mp3');
+      delay(10000, function() {
+        scene.message6.setHidden(false);
+        scene.ok.setHidden(false);
+      });
+    } else {
+      if (tryCount >=1) {
+        scene.message2.setHidden(false);
+      } else {
+        scene.message6.setHidden(false);
+      }
+      scene.ok.setHidden(false);
+    }
   });
 }
 
 function openFull(box) {
-  // TODO: Empty box animation
+  // TODO: Full box animation
   box.animate().translationY(100).duration(500);
+  successResults ++;
   delay(500, function() {
-    scene.message3.setHidden(false);
-    scene.ok.setHidden(false);
+    if(successResults < 3) {
+      if (tryCount === 0) {
+        hideMessages(true);
+        scene.playSound('5voc.mp3');
+        delay(10000, function() {
+          scene.message6.setHidden(false);
+          scene.ok.setHidden(false);
+        });
+      } else {
+        scene.playSound('7voc.mp3');
+        delay(3000, function() {
+          if(tryCount >= 2 && successResults < 2) {
+            scene.message3.setHidden(false);
+          } else if (tryCount >= 1) {
+            scene.message4.setHidden(false);
+          } else if (tryCount === 0) {
+            scene.message5.setHidden(false);
+          }
+
+          scene.ok.setHidden(false);
+        });
+      }
+    } else {
+      hideMessages(true);
+      scene.playSound('9voc.mp3');
+      delay(8000, function() {
+        scene.message5.setHidden(false);
+        scene.ok.setHidden(false);
+        tryCount = 0;
+        successResults = 0;
+        stage2 = falsel
+      });
+    }
   });
+}
+
+function tryMessages() {
+  if(tryCount === 5) {
+    scene.try5.setHidden(false);
+    tryCount = 4;
+  } else if(tryCount === 4) {
+    scene.try4.setHidden(false);
+    tryCount = 3;
+  } else if(tryCount === 3) {
+    scene.try3.setHidden(false);
+    tryCount = 2;
+  } else if(tryCount === 2) {
+    scene.try2.setHidden(false);
+    tryCount = 1;
+  } else if(tryCount === 1) {
+    scene.try1.setHidden(false);
+    tryCount = 0;
+  } else if(tryCount === 0) {
+    tryCount = 5;
+    scene.try5.setHidden(false);
+    successResults = 0;
+  }
 }
 
 function closeBox(box) {
