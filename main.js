@@ -63,7 +63,8 @@ scene.onCreate = function() {
 
   scene.backArrow = createPlane('arrow.png', -sW/2, sH/2, sW/3, (sW/3)/1.39, 'left', 'top');
 
-  scene.ok = createPlane('ok.png', - sW/3/2, -sH/2 + (sW * 1/3)/1.84, sW * 1/3, (sW * 1/3)/1.84, 'left', 'bottom');
+  scene.ok = createPlane('ok.png', 0, -sH/2 + (sW * 1/3)/1.84, sW * 1/3, (sW * 1/3)/1.84, 'left', 'bottom');
+  scene.back = createPlane('back.png', - sW/3/2, -sH/2 + (sW * 1/3)/1.84, sW * 1/3, (sW * 1/3)/1.84, 'left', 'bottom');
 
   scene.message1 = createPlane('message1.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
   scene.message2 = createPlane('message2.png', - sW * 2/3/2, + (sW * 2/3)/1.676/2, sW * 2/3, (sW * 2/3)/1.676, 'left', 'top');
@@ -97,6 +98,7 @@ scene.onCreate = function() {
   scene.watchOn.setHidden(true);
   scene.watchOff.setHidden(true);
   scene.backArrow.setHidden(true);
+  scene.back.setHidden(true);
   scene.watchOn.setHidden(true);
   scene.ok.setHidden(true);
   hideMessages(true);
@@ -136,6 +138,7 @@ scene.onCreate = function() {
       scene.box1.applyToNodeAndDescendants('setHidden', false);
       scene.box2.applyToNodeAndDescendants('setHidden', false);
       scene.ok.setHidden(false);
+      scene.back.setHidden(false);
       scene.message1.setHidden(false);
       childMode = true;
 
@@ -173,6 +176,34 @@ scene.onCreate = function() {
     scene.box1.applyToNodeAndDescendants('setHidden', true);
     scene.box2.applyToNodeAndDescendants('setHidden', true);
     scene.ok.setHidden(true);
+    scene.back.setHidden(true);
+    hideMessages(true);
+    if(childMode) {
+      childMode = false;
+      scene.setWorldOrientation([0, 0, 1, 0]);
+      scene.backArrow.setTranslation(-sW/2, sH/2, 0);
+      rotateMessages(false);
+      closeBox(scene.box1_2);
+      closeBox(scene.box2_2);
+      tryCount = 5;
+      successResults = 0;
+      stage2 = false;
+    }
+  });
+
+  scene.back.on('touchEnd', function() {
+    this.setHidden(true);
+    scene.backArrow.setHidden(true);
+    scene.adultOff.setHidden(false);
+    scene.childOff.setHidden(false);
+    scene.watchOff.setHidden(true);
+    scene.watchOn.setHidden(true);
+    scene.cock.applyToNodeAndDescendants('setHidden', false);
+    scene.cock.setScale(8, 8, 8).setTranslation(- 50, - 50, 0).setRotationY(45);
+    scene.box1.applyToNodeAndDescendants('setHidden', true);
+    scene.box2.applyToNodeAndDescendants('setHidden', true);
+    scene.ok.setHidden(true);
+    scene.back.setHidden(true);
     hideMessages(true);
     if(childMode) {
       childMode = false;
@@ -198,6 +229,7 @@ scene.onCreate = function() {
     } else {
       trueNumber = 1;
     }
+
     console.log(trueNumber);
 
     tryMessages();
@@ -206,6 +238,16 @@ scene.onCreate = function() {
 
   scene.box1_1.on('touchEnd', function() {
     if(canPush) {
+
+      // Inserting cock into box
+      scene.cock.applyToNodeAndDescendants('setHidden', false);
+
+      if(trueNumber === 1) {
+        scene.cock.setScale(4, 4, 4).setTranslation(- 200, - 120, 0).setRotationY(45);
+      } else {
+        scene.cock.setScale(4, 4, 4).setTranslation(200, - 120, 0).setRotationY(45);
+      }
+
       selectedNumber = 1;
       checkBox(scene.box1_2);
       canPush = false;
@@ -214,6 +256,15 @@ scene.onCreate = function() {
 
   scene.box2_1.on('touchEnd', function() {
     if(canPush) {
+
+      // Inserting cock into box
+      scene.cock.applyToNodeAndDescendants('setHidden', false);
+
+      if(trueNumber === 1) {
+        scene.cock.setScale(4, 4, 4).setTranslation(- 200, - 120, 0).setRotationY(45);
+      } else {
+        scene.cock.setScale(4, 4, 4).setTranslation(200, - 120, 0).setRotationY(45);
+      }
       selectedNumber = 2;
       checkBox(scene.box2_2);
       canPush = false;
@@ -298,7 +349,6 @@ function random(min, max) {
 }
 
 function checkBox(box) {
-
   if(selectedNumber == trueNumber) {
     // TODO: show cock
     openFull(box);
@@ -321,7 +371,8 @@ function rotateMessages(rotate) {
     scene.try3.setTranslation(- sW * 2/3/2, sW/2, 0);
     scene.try4.setTranslation(- sW * 2/3/2, sW/2, 0);
     scene.try5.setTranslation(- sW * 2/3/2, sW/2, 0);
-    scene.ok.setTranslation(- sW/3/2, - sW/2, 0);
+    scene.ok.setTranslation(0, - sW/2, 0);
+    scene.back.setTranslation(- sW/3, - sW/2, 0);
   } else {
     scene.message1.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
     scene.message2.setScale(sW * 2/3, (sW * 2/3)/1.676, 0).setTranslation(- sW * 2/3/2, + (sW * 2/3)/1.676/2, 0);
@@ -334,7 +385,8 @@ function rotateMessages(rotate) {
     scene.try3.setTranslation(- sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, 0);
     scene.try4.setTranslation(- sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, 0);
     scene.try5.setTranslation(- sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, 0);
-    scene.ok.setTranslation(- sW/3/2, - sH/2 + (sW * 1/3)/1.84, 0);
+    scene.ok.setTranslation(0, - sH/2 + (sW * 1/3)/1.84, 0);
+    scene.back.setTranslation(- sW/3, - sH/2 + (sW * 1/3)/1.84, 0);
   }
 }
 
@@ -350,6 +402,7 @@ function hideMessages(hide) {
   scene.try3.setHidden(hide);
   scene.try4.setHidden(hide);
   scene.try5.setHidden(hide);
+  scene.back.setHidden(hide);
 }
 
 function openEmpty(box) {
@@ -365,6 +418,7 @@ function openEmpty(box) {
       delay(10000, function() {
         scene.message6.setHidden(false);
         scene.ok.setHidden(false);
+        scene.back.setHidden(false);
       });
     } else {
       if (tryCount >=1) {
@@ -373,6 +427,7 @@ function openEmpty(box) {
         scene.message6.setHidden(false);
       }
       scene.ok.setHidden(false);
+      scene.back.setHidden(false);
     }
   });
 }
@@ -389,6 +444,7 @@ function openFull(box) {
         delay(10000, function() {
           scene.message6.setHidden(false);
           scene.ok.setHidden(false);
+          scene.back.setHidden(false);
         });
       } else {
         scene.playSound('7voc.mp3');
@@ -402,6 +458,7 @@ function openFull(box) {
           }
 
           scene.ok.setHidden(false);
+          scene.back.setHidden(false);
         });
       }
     } else {
@@ -410,6 +467,7 @@ function openFull(box) {
       delay(8000, function() {
         scene.message5.setHidden(false);
         scene.ok.setHidden(false);
+        scene.back.setHidden(false);
         tryCount = 0;
         successResults = 0;
         stage2 = falsel
