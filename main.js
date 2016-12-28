@@ -173,6 +173,7 @@ scene.onCreate = function() {
     scene.watchOff.setHidden(true);
     scene.watchOn.setHidden(true);
     scene.cock.applyToNodeAndDescendants('setHidden', false);
+    scene.cock.setScale(8, 8, 8).setTranslation(- 50, - 50, 0).setRotationY(45);
     scene.box1.applyToNodeAndDescendants('setHidden', true);
     scene.box2.applyToNodeAndDescendants('setHidden', true);
     scene.ok.setHidden(true);
