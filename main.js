@@ -404,6 +404,7 @@ function hideMessages(hide) {
   scene.try4.setHidden(hide);
   scene.try5.setHidden(hide);
   scene.back.setHidden(hide);
+  scene.backArrow.setHidden(hide);
 }
 
 function openEmpty(box) {
@@ -420,6 +421,7 @@ function openEmpty(box) {
         scene.message6.setHidden(false);
         scene.ok.setHidden(false);
         scene.back.setHidden(false);
+        scene.backArrow.setHidden(false);
       });
     } else {
       if (tryCount >=1) {
@@ -429,6 +431,7 @@ function openEmpty(box) {
       }
       scene.ok.setHidden(false);
       scene.back.setHidden(false);
+      scene.backArrow.setHidden(false);
     }
   });
 }
@@ -446,6 +449,7 @@ function openFull(box) {
           scene.message6.setHidden(false);
           scene.ok.setHidden(false);
           scene.back.setHidden(false);
+          scene.backArrow.setHidden(false);
         });
       } else {
         scene.playSound('7voc.mp3');
@@ -460,6 +464,7 @@ function openFull(box) {
 
           scene.ok.setHidden(false);
           scene.back.setHidden(false);
+          scene.backArrow.setHidden(false);
         });
       }
     } else {
@@ -469,9 +474,10 @@ function openFull(box) {
         scene.message5.setHidden(false);
         scene.ok.setHidden(false);
         scene.back.setHidden(false);
+        scene.backArrow.setHidden(false);
         tryCount = 0;
         successResults = 0;
-        stage2 = falsel
+        stage2 = false;
       });
     }
   });
