@@ -51,6 +51,15 @@ scene.onCreate = function() {
   scene.box1_2 = scene.box1.getChild("box1_2");
   scene.box2_2 = scene.box2.getChild("box2_2");
 
+  scene.videoBlock = scene.getScreen()
+    .addSprite()
+    .setTranslation(-sW/2, sH/2, 0)
+    .setScale(sH, sH / 1.777, 1)
+    .setHAlign('left')
+    .setVAlign('bottom')
+    .setRotationZ(-90);
+
+
   //scene.legal = createPlane('legal.png', -sW/2 + 5, -sH/2 + 5, sW - 10, 140, 'left');
   scene.adultOn = createPlane('adult_on.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2 + 20, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
   scene.adultOff = createPlane('adult_off.png', - sW * 2/3/2, -sH/2 + (sW * 2/3)/3.68 * 2 + 20, sW * 2/3, (sW * 2/3)/3.68, 'left', 'bottom');
@@ -79,6 +88,7 @@ scene.onCreate = function() {
   scene.try4 = createPlane('try_4.png', - sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, sW * 2/3, (sW * 2/3)/4.184, 'left', 'top');
   scene.try5 = createPlane('try_5.png', - sW * 2/3/2, sH/2 - (sW * 2/3)/4.184 * 2, sW * 2/3, (sW * 2/3)/4.184, 'left', 'top');
 
+  scene.videoBlock.setHidden(true);
  // blipp.getPresets().override('Text', 'fontSize', 36);
 
  // // Create multiple text assets
@@ -159,10 +169,12 @@ scene.onCreate = function() {
     this.setHidden(true);
     scene.watchOn.setHidden(false);
     delay(200, function() {
-      blipp.playInAppVideo('', 'video.mp4', function() {
-        scene.watchOn.setHidden(true);
-        scene.watchOff.setHidden(false);
-      });
+     // blipp.playInAppVideo('', 'video.mp4', function() {
+     //   scene.watchOn.setHidden(true);
+     //   scene.watchOff.setHidden(false);
+     // });
+      scene.videoBlock.setHidden(false);
+      scene.videoBlock.playVideo('video.mp4', 'video.mp4', false, false, false);
     });
   });
 
