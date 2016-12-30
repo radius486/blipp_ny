@@ -231,8 +231,6 @@ scene.onCreate = function() {
       trueNumber = 1;
     }
 
-    console.log(trueNumber);
-
     tryMessages();
 
   });
@@ -288,7 +286,7 @@ scene.onShow = function() {
     scene.playSound('2voc.mp3');
   });
 
-  delay(12000, function() {
+  delay(14000, function() {
     scene.adultOff.setHidden(false);
     scene.childOff.setHidden(false);
   });
@@ -411,24 +409,21 @@ function openEmpty(box) {
   // TODO: Empty box animation
   box.animate().translationY(100).duration(500);
   delay(500, function() {
-    if (tryCount === 0 && successResults < 3) {
+    if (tryCount === 0) {
       // TODO: Cock shows himself in first box animation.)
       stage2 = true;
-
       hideMessages(true);
       scene.playSound('5voc.mp3');
       delay(10000, function() {
+        tryCount = 5;
+        successResults = 0;
         scene.message6.setHidden(false);
         scene.ok.setHidden(false);
         scene.back.setHidden(false);
         scene.backArrow.setHidden(false);
       });
     } else {
-      if (tryCount >=1) {
-        scene.message2.setHidden(false);
-      } else {
-        scene.message6.setHidden(false);
-      }
+      scene.message2.setHidden(false);
       scene.ok.setHidden(false);
       scene.back.setHidden(false);
       scene.backArrow.setHidden(false);
@@ -446,6 +441,8 @@ function openFull(box) {
         hideMessages(true);
         scene.playSound('5voc.mp3');
         delay(10000, function() {
+          successResults = 0;
+          tryCount = 5;
           scene.message6.setHidden(false);
           scene.ok.setHidden(false);
           scene.back.setHidden(false);
@@ -458,8 +455,6 @@ function openFull(box) {
             scene.message3.setHidden(false);
           } else if (tryCount >= 1) {
             scene.message4.setHidden(false);
-          } else if (tryCount === 0) {
-            scene.message5.setHidden(false);
           }
 
           scene.ok.setHidden(false);
@@ -471,13 +466,13 @@ function openFull(box) {
       hideMessages(true);
       scene.playSound('9voc.mp3');
       delay(8000, function() {
+        successResults = 0;
+        stage2 = false;
+        tryCount = 5;
         scene.message5.setHidden(false);
         scene.ok.setHidden(false);
         scene.back.setHidden(false);
         scene.backArrow.setHidden(false);
-        tryCount = 0;
-        successResults = 0;
-        stage2 = false;
       });
     }
   });
@@ -501,8 +496,6 @@ function tryMessages() {
     tryCount = 0;
   } else if(tryCount === 0) {
     tryCount = 5;
-    scene.try5.setHidden(false);
-    successResults = 0;
   }
 }
 
